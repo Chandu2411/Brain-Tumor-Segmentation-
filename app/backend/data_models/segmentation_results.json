@@ -1,0 +1,48 @@
+{
+    "title": "segmentation_results",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "original_image_key": {
+            "type": "string",
+            "description": "Object storage key for original MRI image"
+        },
+        "segmented_image_key": {
+            "type": "string",
+            "description": "Object storage key for segmented result image"
+        },
+        "dice_coefficient": {
+            "type": "number",
+            "description": "Dice coefficient score"
+        },
+        "accuracy": {
+            "type": "number",
+            "description": "Accuracy score"
+        },
+        "iou_score": {
+            "type": "number",
+            "description": "IoU (Intersection over Union) score"
+        },
+        "filename": {
+            "type": "string",
+            "description": "Original filename of uploaded image"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "original_image_key",
+        "segmented_image_key",
+        "dice_coefficient",
+        "accuracy",
+        "iou_score",
+        "filename"
+    ]
+}

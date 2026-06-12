@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - /app/venv
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///brain.db
+      - JWT_SECRET_KEY=some_jwt_secret_key_123_456_789
+      - JWT_ALGORITHM=HS256
+      - JWT_EXPIRE_MINUTES=60
+      - OIDC_CLIENT_ID=mock_client
+      - OIDC_CLIENT_SECRET=mock_secret
+      - OIDC_ISSUER_URL=http://localhost:8000
+      - OIDC_SCOPE=openid email profile
+      - FRONTEND_URL=http://localhost:3000
+      - ENVIRONMENT=dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_PORT=3000
+      - BACKEND_PORT=8000
+    depends_on:
+      - backend
