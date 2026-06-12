@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroSeg AI - Presentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090c15;
+      --card-bg: rgba(17, 24, 39, 0.65);
+      --primary: #6366f1;
+      --secondary: #a855f7;
+      --accent: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: rgba(31, 41, 55, 0.6);
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: 1920px 1080px;
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      overflow-x: hidden;
+    }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 60px 80px;
+      background: radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 1) 0%, rgba(8, 10, 18, 1) 90%);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    /* Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-b: 1px solid var(--border-color);
+      padding-bottom: 20px;
+      height: 80px;
+    }
+    .slide-header .project-title {
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-header .project-title svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--accent);
+    }
+    .slide-header .slide-title-text {
+      font-size: 38px;
+      font-weight: 800;
+      background: linear-gradient(to right, #ffffff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .slide-header .section-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--primary);
+    }
+
+    /* Content Area */
+    .slide-body {
+      flex: 1;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      height: 40px;
+    }
+    .slide-footer .logo-sec {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+    .slide-footer .logo-sec span {
+      color: var(--text-main);
+    }
+    .slide-footer .slide-number {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      height: 100%;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 30px;
+      height: 100%;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      height: 100%;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+    }
+    .card h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .card-list {
+      margin-top: 15px;
+      list-style-type: none;
+    }
+    .card-list li {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-list li::before {
+      content: "✔";
+      color: var(--success);
+      font-weight: 900;
+    }
+
+    /* Highlight box */
+    .highlight-box {
+      border-left: 5px solid var(--primary);
+      padding: 15px 25px;
+      background: rgba(99, 102, 241, 0.05);
+      border-radius: 0 16px 16px 0;
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 25px;
+    }
+
+    /* Tables */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .slide-table th {
+      background: rgba(99, 102, 241, 0.15);
+      border-bottom: 2px solid var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: left;
+      padding: 16px 20px;
+    }
+    .slide-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 16px;
+    }
+    .slide-table tr:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Hero UI Container */
+    .screenshot-container {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: #000;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .screenshot-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .screenshot-label {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Timeline / Roadmap */
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 100px;
+      padding: 0 40px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 35px;
+      left: 60px;
+      right: 60px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent), var(--success));
+      z-index: 1;
+    }
+    .timeline-node {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .timeline-circle {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    .timeline-node:nth-child(2) .timeline-circle { border-color: var(--secondary); }
+    .timeline-node:nth-child(3) .timeline-circle { border-color: var(--accent); }
+    .timeline-node:nth-child(4) .timeline-circle { border-color: var(--success); }
+    
+    .timeline-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* SVGs and UML style */
+    .uml-container {
+      background: rgba(10, 15, 30, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .uml-svg {
+      width: 100%;
+      height: 100%;
+      max-height: 600px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== SLIDE 1 ==================== -->
+  <div class="slide">
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+      <div style="width: 150px; height: 150px; border-radius: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);">
+        <svg viewBox="0 0 24 24" style="width: 80px; height: 80px; fill: white;">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+      </div>
+      <h1 style="font-size: 76px; font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; background: linear-gradient(to right, #ffffff, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NeuroSeg AI</h1>
+      <p style="font-size: 28px; color: var(--text-muted); font-weight: 400; max-width: 900px; line-height: 1.5; margin-bottom: 50px;">
+        "Empowering neuro-radiology with automated, precise, and real-time deep learning MRI brain tumor segmentation."
+      </p>
+      
+      <div style="display: flex; gap: 40px; justify-content: center; border-top: 1px solid var(--border-color); padding-top: 40px; width: 600px;">
+        <div>
+          <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Developer</div>
+          <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">Chandu2411</div>
+        </div>
+        <div style="border-left: 1px solid var(--border-color);"></div>
+        <div>
+          <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Model</div>
+          <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">Enhanced U-Net (Dice: 89.6%)</div>
+        </div>
+        <div style="border-left: 1px solid var(--border-color);"></div>
+        <div>
+          <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Date</div>
+          <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">June 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">01</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 2 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Executive Summary</div>
+      <div class="slide-title-text">Project Overview</div>
+      <div class="section-tag">Intro</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div class="highlight-box">
+            NeuroSeg AI is an advanced, automated medical diagnostic platform designed to detect and segment brain tumors in MRI scans.
+          </div>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--text-muted); margin-bottom: 30px;">
+            By utilizing a customized Enhanced U-Net deep learning model trained on segmented brain MRI slices, the application solves critical latency and consistency bottlenecks in manual clinical identification workflows.
+          </p>
+          <ul class="card-list" style="margin-top: 0px;">
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Instant Inference:</strong> Generates tumor boundaries and masks in under 1.5 seconds.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Objective Metrics:</strong> Computes Dice Score, Accuracy, and IoU immediately.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Historic Audits:</strong> Persists data into an SQLite instance for longitudinal progress checks.</li>
+          </ul>
+        </div>
+        <div class="card" style="justify-content: center; align-items: center; border-color: rgba(99,102,241,0.25);">
+          <div style="font-size: 120px; font-weight: 800; color: var(--primary); line-height: 1;">89.6%</div>
+          <div style="font-size: 24px; font-weight: 700; color: #fff; margin-top: 10px; margin-bottom: 20px;">Dice Coefficient Score</div>
+          <p style="text-align: center; max-width: 400px; font-size: 16px;">
+            Our Enhanced U-Net deep learning network achieved high overlap accuracy, proving clinical-grade segmentation potential.
+          </p>
+          <div style="display: flex; gap: 30px; margin-top: 30px; width: 100%; justify-content: center;">
+            <div style="text-align: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; flex: 1;">
+              <div style="font-size: 24px; font-weight: 700; color: var(--accent);">94.8%</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Pixel Accuracy</div>
+            </div>
+            <div style="text-align: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; flex: 1;">
+              <div style="font-size: 24px; font-weight: 700; color: var(--success);">&lt; 1.5s</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Inference Latency</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">02</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 3 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Problem Statement</div>
+      <div class="slide-title-text">Challenges in Brain Tumor Diagnosis</div>
+      <div class="section-tag">Context</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-3">
+        <div class="card">
+          <div>
+            <div style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <svg viewBox="0 0 24 24" style="width: 28px; height: 28px; fill: var(--danger);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <h3>Radiologist Fatigue</h3>
+            <p>
+              Manual segmentation of high-resolution 3D MRI scans is extremely tedious and time-consuming. Radiologists handle hundreds of slices daily, leading to physical/mental fatigue, which increases the likelihood of human error during boundary demarcation.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <svg viewBox="0 0 24 24" style="width: 28px; height: 28px; fill: var(--warning);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            </div>
+            <h3>High Variability</h3>
+            <p>
+              Inter-operator variability in manual segmentation routinely ranges between 15% and 25%. Different experts draw different margins for the active tumor core and edema, resulting in inconsistent surgical planning and radiation dosage volumes.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div style="width: 50px; height: 50px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <svg viewBox="0 0 24 24" style="width: 28px; height: 28px; fill: var(--primary);"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            </div>
+            <h3>Workflow Bottlenecks</h3>
+            <p>
+              The manual tumor reporting pipeline frequently delays critical treatments (chemo, radiation, or surgery) by 3 to 7 days, especially in under-staffed public healthcare hospitals where diagnostic queues are massive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">03</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 4 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Market Opportunity</div>
+      <div class="slide-title-text">Rising Demand for Medical Imaging AI</div>
+      <div class="section-tag">Market</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 32px; font-weight: 700; margin-bottom: 20px; color: #fff;">Medical AI is Expanding Rapidly</h3>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px;">
+            The medical image analysis software market is experiencing unprecedented growth, driven by computational breakthroughs, increased availability of annotated clinical datasets, and global clinician shortages.
+          </p>
+          <ul class="card-list" style="margin-top: 0;">
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>AI CAGR Growth:</strong> Medical AI market expanding at ~37.5% annually.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Segmentation Focus:</strong> Over 45% of radiology software budgets are targeted toward tumor and lesion tracking.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Clinical Integration:</strong> Hospitals adopting AI models see an average of 30% reduction in patient reporting turnaround times.</li>
+          </ul>
+        </div>
+        <div class="uml-container">
+          <!-- Custom SVG Bar Chart -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <text x="250" y="30" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Global Medical Imaging AI Market Size ($ Billions)</text>
+            
+            <!-- Axis lines -->
+            <line x1="60" y1="320" x2="450" y2="320" stroke="#4b5563" stroke-width="2" />
+            <line x1="60" y1="60" x2="60" y2="320" stroke="#4b5563" stroke-width="2" />
+            
+            <!-- Y-Axis Labels -->
+            <text x="50" y="325" text-anchor="end" fill="#9ca3af" font-size="12">0</text>
+            <text x="50" y="260" text-anchor="end" fill="#9ca3af" font-size="12">1.0</text>
+            <text x="50" y="195" text-anchor="end" fill="#9ca3af" font-size="12">2.0</text>
+            <text x="50" y="130" text-anchor="end" fill="#9ca3af" font-size="12">3.0</text>
+            <text x="50" y="65" text-anchor="end" fill="#9ca3af" font-size="12">4.0</text>
+            
+            <!-- Gridlines -->
+            <line x1="60" y1="255" x2="450" y2="255" stroke="#1f2937" stroke-dasharray="5,5" />
+            <line x1="60" y1="190" x2="450" y2="190" stroke="#1f2937" stroke-dasharray="5,5" />
+            <line x1="60" y1="125" x2="450" y2="125" stroke="#1f2937" stroke-dasharray="5,5" />
+            <line x1="60" y1="60" x2="450" y2="60" stroke="#1f2937" stroke-dasharray="5,5" />
+
+            <!-- Bars -->
+            <!-- 2024 -->
+            <rect x="90" y="240" width="50" height="80" rx="4" fill="url(#bar-grad-1)" />
+            <text x="115" y="230" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">$1.2B</text>
+            <text x="115" y="340" text-anchor="middle" fill="#9ca3af" font-size="12">2024</text>
+            
+            <!-- 2025 -->
+            <rect x="180" y="188" width="50" height="132" rx="4" fill="url(#bar-grad-2)" />
+            <text x="205" y="178" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">$2.0B</text>
+            <text x="205" y="340" text-anchor="middle" fill="#9ca3af" font-size="12">2025</text>
+            
+            <!-- 2026 -->
+            <rect x="270" y="130" width="50" height="190" rx="4" fill="url(#bar-grad-1)" />
+            <text x="295" y="120" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">$2.9B</text>
+            <text x="295" y="340" text-anchor="middle" fill="#9ca3af" font-size="12">2026</text>
+            
+            <!-- 2027 -->
+            <rect x="360" y="65" width="50" height="255" rx="4" fill="url(#bar-grad-2)" />
+            <text x="385" y="55" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">$3.9B</text>
+            <text x="385" y="340" text-anchor="middle" fill="#9ca3af" font-size="12">2027</text>
+
+            <!-- Definitions for Gradients -->
+            <defs>
+              <linearGradient id="bar-grad-1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#4f46e5" />
+              </linearGradient>
+              <linearGradient id="bar-grad-2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a855f7" />
+                <stop offset="100%" stop-color="#7c3aed" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">04</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 5 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Proposed Solution</div>
+      <div class="slide-title-text">Automated Segmentation Engine</div>
+      <div class="section-tag">Solution</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div class="highlight-box" style="border-color: var(--accent); background: rgba(6,182,212,0.05);">
+            NeuroSeg AI integrates directly into clinical imaging setups to provide immediate U-Net powered pixel-level segmentation.
+          </div>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px;">
+            The platform removes manual drawing errors by identifying boundary curves on raw MRI images and outputting clean mask overlays, absolute pixel segmentation, and mathematical overlap scores.
+          </p>
+          <div class="card" style="padding: 20px; background: rgba(255,255,255,0.02); margin-top: 10px;">
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 5px;">Key Value Propositions</div>
+            <p style="font-size: 14px;">✔ Standardized diagnostic accuracy across clinic locations.</p>
+            <p style="font-size: 14px;">✔ Integration with existing DICOM archiving nodes (PACS).</p>
+            <p style="font-size: 14px;">✔ Highly reliable boundaries for clinical targeting.</p>
+          </div>
+        </div>
+        <div class="uml-container">
+          <!-- SVG Workflow Diagram -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <!-- Node 1 -->
+            <rect x="180" y="30" width="140" height="50" rx="10" fill="#1e293b" stroke="#6366f1" stroke-width="2" />
+            <text x="250" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">1. Upload Axial MRI</text>
+            
+            <line x1="250" y1="80" x2="250" y2="120" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow)" />
+            
+            <!-- Node 2 -->
+            <rect x="160" y="120" width="180" height="50" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="2" />
+            <text x="250" y="150" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">2. Enhanced U-Net Model</text>
+            
+            <line x1="250" y1="170" x2="250" y2="210" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+            
+            <!-- Node 3 -->
+            <rect x="170" y="210" width="160" height="50" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="2" />
+            <text x="250" y="240" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">3. Metrics: Dice, IoU, Acc</text>
+            
+            <line x1="250" y1="260" x2="250" y2="300" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+            
+            <!-- Node 4 -->
+            <rect x="180" y="300" width="140" height="50" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+            <text x="250" y="330" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">4. History DB Save</text>
+
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">05</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 6 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Product Demonstration</div>
+      <div class="slide-title-text">NeuroSeg AI Interface Showcase</div>
+      <div class="section-tag">Demo</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-3">
+        <div class="screenshot-container">
+          <img src="slides-assets/landing_page_1781257382575.png" alt="Landing Page">
+          <div class="screenshot-label">1. Clean Landing Portal</div>
+        </div>
+        <div class="screenshot-container">
+          <img src="slides-assets/segmentation_result_1781257422363.png" alt="Segmentation Result">
+          <div class="screenshot-label">2. Segmentation Workspace</div>
+        </div>
+        <div class="screenshot-container">
+          <img src="slides-assets/history_page_1781257436126.png" alt="History Page">
+          <div class="screenshot-label">3. Audit History & Logs</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">06</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 7 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Product Architecture</div>
+      <div class="slide-title-text">System Topology & Layer Design</div>
+      <div class="section-tag">Architecture</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="uml-container">
+          <!-- Custom Architecture Block Diagram -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <!-- Layers -->
+            <rect x="50" y="40" width="400" height="60" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="2" />
+            <text x="250" y="75" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Presentation Layer (React, Vite, Tailwind)</text>
+            
+            <rect x="50" y="140" width="400" height="60" rx="8" fill="#311042" stroke="#a855f7" stroke-width="2" />
+            <text x="250" y="175" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">API Gateway & Routers (FastAPI / Uvicorn)</text>
+            
+            <rect x="50" y="240" width="180" height="60" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="2" />
+            <text x="140" y="275" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">PyTorch (Enhanced U-Net)</text>
+            
+            <rect x="270" y="240" width="180" height="60" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2" />
+            <text x="360" y="275" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">SQLite Database</text>
+
+            <!-- Deployment orchestrator -->
+            <rect x="50" y="340" width="400" height="40" rx="6" fill="#1f2937" stroke="#9ca3af" stroke-width="1.5" />
+            <text x="250" y="365" text-anchor="middle" fill="#9ca3af" font-size="12" font-weight="600">Docker / Docker Compose Containerization</text>
+
+            <!-- Connectors -->
+            <line x1="250" y1="100" x2="250" y2="140" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" />
+            <line x1="140" y1="200" x2="140" y2="240" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" />
+            <line x1="360" y1="200" x2="360" y2="240" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" />
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 20px; color:#fff;">Modular Medical Pipeline</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            The application enforces strict separation of concerns. The backend handles data storage and heavy matrix operations (Deep Learning forward pass) asynchronously, keeping the client interface responsive.
+          </p>
+          <ul class="card-list" style="margin-top: 0;">
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Client (Vite/React)</strong>: Displays uploads, overlays, and charts in real-time.</li>
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Server (FastAPI)</strong>: Receives payloads, extracts dimensions, invokes the DL weights, and tracks metrics.</li>
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Storage (SQLAlchemy/SQLite)</strong>: Performs high-efficiency relational audits.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">07</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 8 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Technology Stack</div>
+      <div class="slide-title-text">Curated Production Stack</div>
+      <div class="section-tag">Tech</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="card" style="border-color: rgba(99,102,241,0.35);">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Frontend</div>
+            <h3 style="margin-bottom: 10px;">React (TS)</h3>
+            <p style="font-size: 14px;">TypeScript React setup configured with Vite for minimal bundle loading latency.</p>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 15px;">
+            Vite, Tailwind, shadcn/ui
+          </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(168,85,247,0.35);">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 10px;">Backend</div>
+            <h3 style="margin-bottom: 10px;">FastAPI</h3>
+            <p style="font-size: 14px;">Asynchronous Python server framework routing inference requests efficiently.</p>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 15px;">
+            FastAPI, Uvicorn
+          </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(6,182,212,0.35);">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 10px;">Deep Learning</div>
+            <h3 style="margin-bottom: 10px;">PyTorch</h3>
+            <p style="font-size: 14px;">Custom Enhanced U-Net weights trained on brain datasets using GPU-accelerated pipelines.</p>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 15px;">
+            PyTorch, OpenCV, NumPy
+          </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(16,185,129,0.35);">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--success); text-transform: uppercase; margin-bottom: 10px;">Infrastructure</div>
+            <h3 style="margin-bottom: 10px;">Docker</h3>
+            <p style="font-size: 14px;">Docker compose allows rapid local environment setup for developers and staging servers.</p>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 15px;">
+            Docker Compose, SQLite
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">08</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 9 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Features & Capabilities</div>
+      <div class="slide-title-text">Advanced Medical Tooling</div>
+      <div class="section-tag">Features</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="color: var(--primary);">Clinical Tools</h3>
+          <ul class="card-list" style="margin-top: 20px;">
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Interactive Sample Loader</strong>: Quickly load verified baseline scans to demonstrate segmentation logic.</li>
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Dynamic Contrast Overlay</strong>: Toggles high-contrast pixel boundaries directly on the original scan images.</li>
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Statistical Breakdown</strong>: Provides Dice coefficient, Jaccard Index (IoU), and accuracy computations in real-time.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--secondary);">System Operations</h3>
+          <ul class="card-list" style="margin-top: 20px;">
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Audit Trails</strong>: Retains historical patient logs securely for clinical validation.</li>
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Asynchronous Queue</strong>: Backend uses asyncio to prevent UI freeze during segmentation calculations.</li>
+            <li style="font-size: 18px; margin-bottom: 20px;"><strong>Modular Database</strong>: Alembic migration setup permits schema evolution without downtime.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">09</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 10 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Unique Selling Proposition (USP)</div>
+      <div class="slide-title-text">NeuroSeg AI Advantage</div>
+      <div class="section-tag">USP</div>
+    </div>
+    <div class="slide-body">
+      <table class="slide-table">
+        <thead>
+          <tr>
+            <th>Feature Metric</th>
+            <th>NeuroSeg AI (Our Product)</th>
+            <th>Traditional Edge Methods</th>
+            <th>Manual Radiologist Drawing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Inference Time</strong></td>
+            <td style="color: var(--success); font-weight: 700;">&lt; 1.5 Seconds</td>
+            <td>&gt; 20 Seconds</td>
+            <td>10 to 30 Minutes</td>
+          </tr>
+          <tr>
+            <td><strong>Overlap Accuracy (Dice)</strong></td>
+            <td style="color: var(--primary); font-weight: 700;">89.6% (Consistent)</td>
+            <td>65.2% (Noisy)</td>
+            <td>91.0% (Radiologist Baseline)</td>
+          </tr>
+          <tr>
+            <td><strong>Deployment Overhead</strong></td>
+            <td style="font-weight: 600;">Zero Client Load (Docker Compose)</td>
+            <td>High Local GPU Required</td>
+            <td>Extremely High Labor Cost</td>
+          </tr>
+          <tr>
+            <td><strong>Historic Audit Trace</strong></td>
+            <td style="color: var(--success); font-weight: 700;">Automatic Database Logger</td>
+            <td>None (Manual Files)</td>
+            <td>Manual Paper Logs / PACS Archive</td>
+          </tr>
+          <tr>
+            <td><strong>Inter-observer Variance</strong></td>
+            <td style="color: var(--primary); font-weight: 700;">0% (Deterministic Model)</td>
+            <td>5%</td>
+            <td>15% - 25% Variance</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">10</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 11 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Working Methodology</div>
+      <div class="slide-title-text">Step-by-Step Processing Pipeline</div>
+      <div class="section-tag">Pipeline</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 20px; color: var(--primary); margin-bottom: 5px;">Step 1: Upload & Normalization</h4>
+            <p style="font-size: 16px; color: var(--text-muted);">User uploads raw axial MRI scans. Frontend serializes them to base64, which is posted to the backend API.</p>
+          </div>
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 20px; color: var(--secondary); margin-bottom: 5px;">Step 2: Model Inference</h4>
+            <p style="font-size: 16px; color: var(--text-muted);">The backend deserializes, resizes to 256x256, normalizes pixel values, and feeds the tensor into the Enhanced U-Net weights.</p>
+          </div>
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 20px; color: var(--accent); margin-bottom: 5px;">Step 3: Metrics Calculation</h4>
+            <p style="font-size: 16px; color: var(--text-muted);">Computes Jaccard, Dice, and accuracy scores against reference parameters to confirm prediction quality.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 20px; color: var(--success); margin-bottom: 5px;">Step 4: Persistence & Render</h4>
+            <p style="font-size: 16px; color: var(--text-muted);">Saves the result record to the SQLite database and returns the base64-encoded segmented mask overlays to the frontend client.</p>
+          </div>
+        </div>
+        <div class="uml-container">
+          <!-- Custom SVG Pipeline Flowchart -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <!-- Box 1 -->
+            <rect x="40" y="50" width="180" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-width="2" />
+            <text x="130" y="80" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Client: Send Base64 Image</text>
+            
+            <!-- Connector 1 -->
+            <line x1="220" y1="75" x2="280" y2="75" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Box 2 -->
+            <rect x="280" y="50" width="180" height="50" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="2" />
+            <text x="370" y="80" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Backend: Prep & Normalize</text>
+            
+            <!-- Connector 2 -->
+            <line x1="370" y1="100" x2="370" y2="160" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Box 3 -->
+            <rect x="280" y="160" width="180" height="50" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="2" />
+            <text x="370" y="190" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Forward Pass: Enhanced U-Net</text>
+            
+            <!-- Connector 3 -->
+            <line x1="280" y1="185" x2="220" y2="185" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Box 4 -->
+            <rect x="40" y="160" width="180" height="50" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+            <text x="130" y="190" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Extract Overlays & Scores</text>
+
+            <!-- Connector 4 -->
+            <line x1="130" y1="210" x2="130" y2="270" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Box 5 -->
+            <rect x="40" y="270" width="180" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+            <text x="130" y="300" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">SQL Database Logging</text>
+
+            <!-- Connector 5 -->
+            <line x1="220" y1="295" x2="280" y2="295" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Box 6 -->
+            <rect x="280" y="270" width="180" height="50" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+            <text x="370" y="300" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Render Dynamic Overlay</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">11</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 12 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Innovation & Competitive Advantage</div>
+      <div class="slide-title-text">Advanced Network Architecture</div>
+      <div class="section-tag">Advantage</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="color: var(--primary);">Multi-Scale Deep Learning</h3>
+          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+            Unlike standard thresholding or edge-detection techniques, the Enhanced U-Net model uses dense encoder-decoder pathways.
+          </p>
+          <p style="font-size: 16px; line-height: 1.6;">
+            By concatenating high-frequency spatial context from the contractive path directly with corresponding decoder blocks, the network segments fuzzy boundary boundaries with high statistical confidence.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--secondary);">Unified Loss Optimization</h3>
+          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+            During training, the model optimized a custom compound loss function:
+          </p>
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 16px; color: var(--accent); text-align: center; margin-bottom: 20px; border: 1px solid var(--border-color);">
+            Loss = BCE_Loss + Dice_Loss
+          </div>
+          <p style="font-size: 16px; line-height: 1.6;">
+            This combined approach handles target pixel imbalances (since tumors are a small fraction of the total slice area) without suffering from grid-collapse or background bias.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">12</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 13 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Model Architecture Details</div>
+      <div class="slide-title-text">Enhanced U-Net Neural Layout</div>
+      <div class="section-tag">Deep Learning</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="uml-container">
+          <!-- U-Net Architecture SVG -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <!-- Encoder Left Side -->
+            <rect x="30" y="50" width="80" height="30" rx="4" fill="#6366f1" />
+            <text x="70" y="68" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Conv 256x256</text>
+
+            <rect x="40" y="110" width="70" height="30" rx="4" fill="#6366f1" />
+            <text x="75" y="128" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Conv 128x128</text>
+
+            <rect x="50" y="170" width="60" height="30" rx="4" fill="#6366f1" />
+            <text x="80" y="188" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Conv 64x64</text>
+
+            <!-- Bottleneck Bottom -->
+            <rect x="200" y="270" width="100" height="35" rx="4" fill="#4f46e5" />
+            <text x="250" y="292" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">Bottleneck 32x32</text>
+
+            <!-- Decoder Right Side -->
+            <rect x="390" y="170" width="60" height="30" rx="4" fill="#a855f7" />
+            <text x="420" y="188" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Deconv 64x64</text>
+
+            <rect x="390" y="110" width="70" height="30" rx="4" fill="#a855f7" />
+            <text x="425" y="128" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Deconv 128x128</text>
+
+            <rect x="390" y="50" width="80" height="30" rx="4" fill="#a855f7" />
+            <text x="430" y="68" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Output 256x256</text>
+
+            <!-- Downarrows -->
+            <line x1="75" y1="80" x2="75" y2="110" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="75" y1="140" x2="75" y2="170" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="80" y1="200" x2="200" y2="270" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Uparrows -->
+            <line x1="300" y1="270" x2="420" y2="200" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="420" y1="170" x2="420" y2="140" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="420" y1="110" x2="420" y2="80" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Skip Connections -->
+            <line x1="110" y1="185" x2="390" y2="185" stroke="#06b6d4" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+            <line x1="110" y1="125" x2="390" y2="125" stroke="#06b6d4" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+            <line x1="110" y1="65" x2="390" y2="65" stroke="#06b6d4" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+
+            <!-- Labels for Skip Connections -->
+            <text x="250" y="180" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="600">Skip Connection</text>
+            <text x="250" y="120" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="600">Skip Connection</text>
+            <text x="250" y="60" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="600">Skip Connection</text>
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 20px;">Skip Connection Feature Restoration</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;">
+            Standard autoencoders shrink input features into a tight bottleneck vector, causing boundary localization details to be permanently discarded during upsampling.
+          </p>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;">
+            The U-Net architecture resolves this by introducing **Skip Connections** that copy and concatenate high-resolution feature maps from the encoder directly to the decoder.
+          </p>
+          <div class="card" style="padding: 15px; background: rgba(99,102,241,0.05); margin-top: 10px;">
+            <p style="font-size: 14px; font-weight: 600; color: var(--primary);">Network Parameters:</p>
+            <p style="font-size: 13px; margin-top: 5px;">• input channel: 1 (Grayscale MRI slice)</p>
+            <p style="font-size: 13px;">• output channel: 1 (Binary tumor mask)</p>
+            <p style="font-size: 13px;">• Optimization: Adam Optimizer (Learning Rate: 1e-4)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">13</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 14 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">UML Diagrams</div>
+      <div class="slide-title-text">UML Use Case & Class Diagram</div>
+      <div class="section-tag">UML</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="uml-container">
+          <!-- Use Case SVG -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <text x="250" y="30" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Use Case Diagram</text>
+            
+            <!-- Actor Radiologist -->
+            <circle cx="70" cy="180" r="16" fill="#1f2937" stroke="#6366f1" stroke-width="2.5" />
+            <line x1="70" y1="196" x2="70" y2="240" stroke="#6366f1" stroke-width="2.5" />
+            <line x1="50" y1="210" x2="90" y2="210" stroke="#6366f1" stroke-width="2.5" />
+            <line x1="70" y1="240" x2="55" y2="280" stroke="#6366f1" stroke-width="2.5" />
+            <line x1="70" y1="240" x2="85" y2="280" stroke="#6366f1" stroke-width="2.5" />
+            <text x="70" y="305" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Radiologist</text>
+
+            <!-- System Boundary -->
+            <rect x="180" y="60" width="280" height="310" rx="10" fill="none" stroke="#4b5563" stroke-width="1.5" />
+            <text x="320" y="80" text-anchor="middle" fill="#9ca3af" font-size="11" font-weight="700">NeuroSeg AI System</text>
+
+            <!-- Use cases -->
+            <ellipse cx="320" cy="120" rx="70" ry="22" fill="#111827" stroke="#a855f7" stroke-width="2" />
+            <text x="320" y="124" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Upload MRI Image</text>
+
+            <ellipse cx="320" cy="185" rx="70" ry="22" fill="#111827" stroke="#a855f7" stroke-width="2" />
+            <text x="320" y="189" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Analyze Segmentation</text>
+
+            <ellipse cx="320" cy="250" rx="70" ry="22" fill="#111827" stroke="#a855f7" stroke-width="2" />
+            <text x="320" y="254" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">View Metrics Result</text>
+
+            <ellipse cx="320" cy="315" rx="70" ry="22" fill="#111827" stroke="#a855f7" stroke-width="2" />
+            <text x="320" y="319" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Audit History Logs</text>
+
+            <!-- Actor associations -->
+            <line x1="100" y1="200" x2="250" y2="130" stroke="#fff" stroke-width="1" />
+            <line x1="100" y1="220" x2="250" y2="185" stroke="#fff" stroke-width="1" />
+            <line x1="100" y1="235" x2="250" y2="245" stroke="#fff" stroke-width="1" />
+            <line x1="100" y1="250" x2="250" y2="310" stroke="#fff" stroke-width="1" />
+          </svg>
+        </div>
+        
+        <div class="uml-container">
+          <!-- Class Diagram SVG -->
+          <svg class="uml-svg" viewBox="0 0 500 400">
+            <text x="250" y="30" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Class Diagram</text>
+
+            <!-- Class 1: User -->
+            <rect x="30" y="70" width="180" height="90" fill="#111827" stroke="#6366f1" stroke-width="2" />
+            <line x1="30" y1="95" x2="210" y2="95" stroke="#6366f1" stroke-width="1.5" />
+            <line x1="30" y1="130" x2="210" y2="130" stroke="#6366f1" stroke-width="1.5" />
+            <text x="120" y="87" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">UserContext</text>
+            <text x="40" y="110" fill="#9ca3af" font-size="9">+ user_id: String</text>
+            <text x="40" y="122" fill="#9ca3af" font-size="9">+ role: String</text>
+            <text x="40" y="145" fill="#e5e7eb" font-size="9">+ setMockSession()</text>
+
+            <!-- Class 2: SegmentationResult -->
+            <rect x="270" y="70" width="200" height="130" fill="#111827" stroke="#a855f7" stroke-width="2" />
+            <line x1="270" y1="95" x2="470" y2="95" stroke="#a855f7" stroke-width="1.5" />
+            <line x1="270" y1="155" x2="470" y2="155" stroke="#a855f7" stroke-width="1.5" />
+            <text x="370" y="87" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">SegmentationResult</text>
+            <text x="280" y="110" fill="#9ca3af" font-size="9">+ id: Integer</text>
+            <text x="280" y="121" fill="#9ca3af" font-size="9">+ filename: String</text>
+            <text x="280" y="132" fill="#9ca3af" font-size="9">+ dice_coefficient: Float</text>
+            <text x="280" y="143" fill="#9ca3af" font-size="9">+ iou_score: Float</text>
+            <text x="280" y="170" fill="#e5e7eb" font-size="9">+ create()</text>
+            <text x="280" y="182" fill="#e5e7eb" font-size="9">+ queryHistory()</text>
+
+            <!-- Class 3: UNetModel -->
+            <rect x="150" y="250" width="200" height="110" fill="#111827" stroke="#06b6d4" stroke-width="2" />
+            <line x1="150" y1="275" x2="350" y2="275" stroke="#06b6d4" stroke-width="1.5" />
+            <line x1="150" y1="315" x2="350" y2="315" stroke="#06b6d4" stroke-width="1.5" />
+            <text x="250" y="267" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">UNetModel</text>
+            <text x="160" y="290" fill="#9ca3af" font-size="9">+ weights_path: String</text>
+            <text x="160" y="302" fill="#9ca3af" font-size="9">+ image_size: Tuple</text>
+            <text x="160" y="330" fill="#e5e7eb" font-size="9">+ preprocess(img)</text>
+            <text x="160" y="342" fill="#e5e7eb" font-size="9">+ forwardPass(tensor)</text>
+
+            <!-- Associations -->
+            <line x1="210" y1="115" x2="270" y2="115" stroke="#fff" stroke-width="1" stroke-dasharray="3,3" />
+            <line x1="370" y1="200" x2="310" y2="250" stroke="#fff" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">14</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 15 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">UML Diagrams</div>
+      <div class="slide-title-text">UML Sequence Diagram</div>
+      <div class="section-tag">Sequence</div>
+    </div>
+    <div class="slide-body">
+      <div class="uml-container">
+        <!-- Sequence Diagram SVG -->
+        <svg class="uml-svg" viewBox="0 0 800 400">
+          <text x="400" y="30" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Segmentation Request Sequence</text>
+          
+          <!-- Actors/Objects -->
+          <rect x="50" y="50" width="100" height="30" rx="4" fill="#1e293b" stroke="#6366f1" />
+          <text x="100" y="70" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Radiologist</text>
+          <line x1="100" y1="80" x2="100" y2="350" stroke="#4b5563" stroke-dasharray="4,4" />
+
+          <rect x="220" y="50" width="100" height="30" rx="4" fill="#1e293b" stroke="#a855f7" />
+          <text x="270" y="70" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">React Client</text>
+          <line x1="270" y1="80" x2="270" y2="350" stroke="#4b5563" stroke-dasharray="4,4" />
+
+          <rect x="390" y="50" width="100" height="30" rx="4" fill="#1e293b" stroke="#06b6d4" />
+          <text x="440" y="70" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">FastAPI Server</text>
+          <line x1="440" y1="80" x2="440" y2="350" stroke="#4b5563" stroke-dasharray="4,4" />
+
+          <rect x="560" y="50" width="100" height="30" rx="4" fill="#1e293b" stroke="#e2e8f0" />
+          <text x="610" y="70" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">U-Net Model</text>
+          <line x1="610" y1="80" x2="610" y2="350" stroke="#4b5563" stroke-dasharray="4,4" />
+
+          <rect x="680" y="50" width="100" height="30" rx="4" fill="#1e293b" stroke="#10b981" />
+          <text x="730" y="70" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">SQLite DB</text>
+          <line x1="730" y1="80" x2="730" y2="350" stroke="#4b5563" stroke-dasharray="4,4" />
+
+          <!-- Steps -->
+          <line x1="100" y1="120" x2="270" y2="120" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="185" y="114" text-anchor="middle" fill="#9ca3af" font-size="9">1. Upload axial MRI scan</text>
+
+          <line x1="270" y1="150" x2="440" y2="150" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="355" y="144" text-anchor="middle" fill="#9ca3af" font-size="9">2. POST /analyze {image}</text>
+
+          <line x1="440" y1="180" x2="610" y2="180" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="525" y="174" text-anchor="middle" fill="#9ca3af" font-size="9">3. forwardPass(tensor)</text>
+
+          <line x1="610" y1="210" x2="440" y2="210" stroke="#f3f4f6" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+          <text x="525" y="204" text-anchor="middle" fill="#9ca3af" font-size="9">4. Return segmented mask</text>
+
+          <line x1="440" y1="250" x2="730" y2="250" stroke="#f3f4f6" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="585" y="244" text-anchor="middle" fill="#9ca3af" font-size="9">5. Write record & metrics</text>
+
+          <line x1="730" y1="280" x2="440" y2="280" stroke="#f3f4f6" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+          <text x="585" y="274" text-anchor="middle" fill="#9ca3af" font-size="9">6. DB write confirmation</text>
+
+          <line x1="440" y1="310" x2="270" y2="310" stroke="#f3f4f6" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrow)" />
+          <text x="355" y="304" text-anchor="middle" fill="#9ca3af" font-size="9">7. Return overlay & scores</text>
+        </svg>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">15</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 16 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Performance Metrics</div>
+      <div class="slide-title-text">Evaluation Results</div>
+      <div class="section-tag">Performance</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card" style="justify-content: space-around;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <span style="font-size: 20px; font-weight: 600;">Dice Overlap Score</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--primary);">89.6%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <span style="font-size: 20px; font-weight: 600;">Jaccard Index (IoU)</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--accent);">81.2%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <span style="font-size: 20px; font-weight: 600;">Pixel Accuracy</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--success);">94.8%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 20px; font-weight: 600;">Avg Latency per Scan</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--warning);">1.2 Seconds</span>
+          </div>
+        </div>
+        <div class="uml-container">
+          <!-- Custom training loss SVG chart -->
+          <svg class="uml-svg" viewBox="0 0 500 300">
+            <text x="250" y="25" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Model Loss Convergence Curve</text>
+            
+            <line x1="50" y1="240" x2="450" y2="240" stroke="#4b5563" stroke-width="1.5" />
+            <line x1="50" y1="40" x2="50" y2="240" stroke="#4b5563" stroke-width="1.5" />
+
+            <text x="45" y="245" text-anchor="end" fill="#9ca3af" font-size="10">0.0</text>
+            <text x="45" y="190" text-anchor="end" fill="#9ca3af" font-size="10">0.2</text>
+            <text x="45" y="140" text-anchor="end" fill="#9ca3af" font-size="10">0.4</text>
+            <text x="45" y="90" text-anchor="end" fill="#9ca3af" font-size="10">0.6</text>
+            <text x="45" y="40" text-anchor="end" fill="#9ca3af" font-size="10">0.8</text>
+
+            <text x="250" y="270" text-anchor="middle" fill="#9ca3af" font-size="10">Training Epochs</text>
+            <text x="250" y="285" fill="#9ca3af" font-size="9" text-anchor="middle">(BCE + Dice Compound Loss)</text>
+
+            <!-- Line paths -->
+            <!-- Training Loss (purple) -->
+            <path d="M 50 50 Q 150 120 250 170 T 450 200" fill="none" stroke="#a855f7" stroke-width="3" />
+            <!-- Validation Loss (indigo) -->
+            <path d="M 50 60 Q 150 140 250 185 T 450 215" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="4,4" />
+
+            <!-- Legends -->
+            <rect x="320" y="50" width="12" height="12" fill="#a855f7" />
+            <text x="340" y="60" fill="#f3f4f6" font-size="10">Train Loss</text>
+            
+            <rect x="320" y="70" width="12" height="12" fill="#6366f1" />
+            <text x="340" y="80" fill="#f3f4f6" font-size="10">Val Loss</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">16</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 17 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Results & Outputs</div>
+      <div class="slide-title-text">Visual Segmentation Output</div>
+      <div class="section-tag">Results</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 20px;">Accurate Region Extraction</h3>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px;">
+            The diagnostic interface presents the segmented scan in two clear layouts to support radiologist validation:
+          </p>
+          <ul class="card-list" style="margin-top: 0; margin-bottom: 25px;">
+            <li style="font-size: 17px; margin-bottom: 12px;"><strong>Visual Overlay</strong>: Semi-transparent highlighted region mapped over the grayscale brain tissue.</li>
+            <li style="font-size: 17px; margin-bottom: 12px;"><strong>Binary Mask</strong>: Absolute segmentation silhouette mapping active tumor cells.</li>
+          </ul>
+          <div class="highlight-box" style="border-color: var(--success); background: rgba(16,185,129,0.05); margin-bottom: 0;">
+            This duality allows rapid localization of the mass core while preserving high contrast of neighboring healthy tissue structures.
+          </div>
+        </div>
+        <div class="screenshot-container">
+          <img src="slides-assets/segmentation_result_1781257422363.png" alt="Segmentation Output">
+          <div class="screenshot-label">Direct App Output Screen</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">17</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 18 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Business Model</div>
+      <div class="slide-title-text">Hospital & Enterprise Revenue Channels</div>
+      <div class="section-tag">Business</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-3">
+        <div class="card">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">SaaS Tier</div>
+            <h3 style="font-size: 28px; margin-bottom: 15px;">API Subscription</h3>
+            <p style="font-size: 15px; margin-bottom: 20px;">Flexible monthly subscription tailored for small clinical clinics and local imaging centers.</p>
+          </div>
+          <div style="font-size: 20px; font-weight: 700; color: #fff; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            Pay-Per-Scan / Tiered
+          </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(168,85,247,0.4);">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 10px;">Enterprise Tier</div>
+            <h3 style="font-size: 28px; margin-bottom: 15px;">PACS On-Premise</h3>
+            <p style="font-size: 15px; margin-bottom: 20px;">Dedicated local model weights installation directly inside hospital server clusters for maximum privacy.</p>
+          </div>
+          <div style="font-size: 20px; font-weight: 700; color: #fff; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            Yearly Enterprise License
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 10px;">Research Tier</div>
+            <h3 style="font-size: 28px; margin-bottom: 15px;">Clinical Trials</h3>
+            <p style="font-size: 15px; margin-bottom: 20px;">Bulk scanning API integrations with research groups tracking tumor evolution indices over time.</p>
+          </div>
+          <div style="font-size: 20px; font-weight: 700; color: #fff; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            Custom Contract / SLA
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">18</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 19 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Cost-Benefit Analysis</div>
+      <div class="slide-title-text">Quantifiable Clinical ROI</div>
+      <div class="section-tag">ROI</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 20px;">Accelerating Hospital Workflows</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;">
+            Deploying automated boundary extraction substantially reduces labor overhead. Clinicians only need to verify and refine automatically segmented borders instead of drawing them from scratch.
+          </p>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            For a clinic conducting 50 MRI tumor scans daily, the labor efficiency ROI becomes active in under 3 months.
+          </p>
+          <div class="card" style="padding: 15px; background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.25);">
+            <div style="font-size: 15px; font-weight: 700; color: var(--success);">98% Decrease in Analysis Time</div>
+            <p style="font-size: 13px; margin-top: 5px; color: var(--text-muted);">Manual tracing takes 15 minutes. NeuroSeg AI processes scans in 1.2 seconds, boosting clinician throughput.</p>
+          </div>
+        </div>
+        <table class="slide-table" style="align-self: center;">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Traditional Pipeline</th>
+              <th>NeuroSeg Pipeline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Radiologist Tracing Time</strong></td>
+              <td>15 - 30 Minutes</td>
+              <td style="color: var(--success); font-weight: 600;">1.2 Seconds</td>
+            </tr>
+            <tr>
+              <td><strong>Direct Tracing Cost</strong></td>
+              <td>~$50.00 / scan (Labor)</td>
+              <td style="color: var(--success); font-weight: 600;">~$0.10 / scan (API)</td>
+            </tr>
+            <tr>
+              <td><strong>Average Reporting Delay</strong></td>
+              <td>3 to 5 Days</td>
+              <td style="color: var(--success); font-weight: 600;">Under 5 Minutes</td>
+            </tr>
+            <tr>
+              <td><strong>Historic Traceability</strong></td>
+              <td>Manual PDF Retrieval</td>
+              <td style="color: var(--success); font-weight: 600;">Automated SQL log lookup</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">19</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 20 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Scalability & Deployment</div>
+      <div class="slide-title-text">Deploying at Scale</div>
+      <div class="section-tag">Scalability</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="uml-container">
+          <!-- Deployment Architecture SVG -->
+          <svg class="uml-svg" viewBox="0 0 500 300">
+            <!-- Client -->
+            <rect x="30" y="110" width="80" height="50" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1.5" />
+            <text x="70" y="138" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">React Client</text>
+            
+            <line x1="110" y1="135" x2="170" y2="135" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- Cloud API Gateway Load Balancer -->
+            <rect x="170" y="80" width="120" height="110" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="2" />
+            <text x="230" y="110" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Load Balancer</text>
+            <text x="230" y="128" text-anchor="middle" fill="#9ca3af" font-size="9">(Nginx / ECS)</text>
+            <text x="230" y="148" text-anchor="middle" fill="#9ca3af" font-size="8">Auto-scaling group</text>
+            
+            <!-- Scaling Arrows -->
+            <line x1="290" y1="110" x2="350" y2="70" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="290" y1="160" x2="350" y2="200" stroke="#fff" stroke-width="1.5" marker-end="url(#arrow)" />
+
+            <!-- API Nodes -->
+            <rect x="350" y="40" width="120" height="50" rx="6" fill="#111827" stroke="#06b6d4" stroke-width="1.5" />
+            <text x="410" y="68" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">FastAPI Node 1</text>
+
+            <rect x="350" y="180" width="120" height="50" rx="6" fill="#111827" stroke="#06b6d4" stroke-width="1.5" />
+            <text x="410" y="208" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">FastAPI Node 2</text>
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 20px;">Auto-Scaling Deep Learning</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;">
+            The backend container layout is fully stateless. Model weights are loaded into CPU/GPU memory once during application startup.
+          </p>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted);">
+            By placing the containers inside an auto-scaling orchestration group (e.g. AWS ECS or Kubernetes), server nodes replicate instantly when request volume increases, preventing service interruptions.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">20</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 21 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Security & Reliability</div>
+      <div class="slide-title-text">Compliance and Data Protection</div>
+      <div class="section-tag">Security</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div class="highlight-box" style="border-color: var(--success); background: rgba(16,185,129,0.05);">
+            Medical data security is integral to our system architecture, ensuring full compliance with HIPAA and GDPR regulations.
+          </div>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            NeuroSeg AI implements key data protection layers to secure sensitive patient scans.
+          </p>
+          <ul class="card-list" style="margin-top: 0;">
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Anonymized Pipeline</strong>: Automatically removes DICOM metadata tags (Patient Name, DOB) before processing.</li>
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Transport Security</strong>: Encrypts all API calls using TLS 1.3 protocol.</li>
+            <li style="font-size: 16px; margin-bottom: 10px;"><strong>Audit Trails</strong>: Tracks system access histories to protect patient records.</li>
+          </ul>
+        </div>
+        <div class="card" style="justify-content: center;">
+          <h3 style="color: var(--success); margin-bottom: 20px;">Security Specifications</h3>
+          <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <div style="font-size: 14px; color: var(--text-muted);">DICOM Sanitization</div>
+            <div style="font-size: 16px; font-weight: 600; color: #fff; margin-top: 5px;">Automatic metadata extraction & hashing</div>
+          </div>
+          <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <div style="font-size: 14px; color: var(--text-muted);">Database Rest Encryption</div>
+            <div style="font-size: 16px; font-weight: 600; color: #fff; margin-top: 5px;">AES-256 encrypted relational database tables</div>
+          </div>
+          <div>
+            <div style="font-size: 14px; color: var(--text-muted);">In-Memory Inference</div>
+            <div style="font-size: 16px; font-weight: 600; color: #fff; margin-top: 5px;">Scans are processed in memory and never written to cache disks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">21</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 22 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Future Enhancements</div>
+      <div class="slide-title-text">Roadmap & Future Phases</div>
+      <div class="section-tag">Roadmap</div>
+    </div>
+    <div class="slide-body" style="display: flex; flex-direction: column; justify-content: center;">
+      <div class="timeline">
+        <div class="timeline-node">
+          <div class="timeline-circle">I</div>
+          <div class="timeline-title">Phase 1: Local MVP</div>
+          <div class="timeline-desc">
+            Develop local web-app, compile customized Enhanced U-Net weights, and containerize utilizing Docker. (Completed)
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-circle">II</div>
+          <div class="timeline-title">Phase 2: Multi-Class</div>
+          <div class="timeline-desc">
+            Expand network classes to distinguish necrotic core, active tumor volume, and edema in 3D structures. (Q4 2206)
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-circle">III</div>
+          <div class="timeline-title">Phase 3: PACS Connect</div>
+          <div class="timeline-desc">
+            Integrate direct DICOM pipeline nodes (Orthanc/PACS) to allow automated image pull on scan completion. (Q2 2027)
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-circle">IV</div>
+          <div class="timeline-title">Phase 4: FDA Clearance</div>
+          <div class="timeline-desc">
+            Conduct multi-site clinical validation trials and seek FDA approval for automated diagnostics. (Q4 2027)
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">22</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 23 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Financial Projections</div>
+      <div class="slide-title-text">Growth Estimations & Targets</div>
+      <div class="section-tag">Financials</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 20px;">Financial Forecast (3-Year Plan)</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;">
+            Revenue projections are based on scaling from small clinical practices (SaaS) to enterprise-wide licensing agreements across regional hospital associations.
+          </p>
+          <div class="card" style="padding: 15px; background: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.25);">
+            <div style="font-size: 15px; font-weight: 700; color: var(--secondary);">Low Operating Overhead</div>
+            <p style="font-size: 13px; margin-top: 5px; color: var(--text-muted);">Stateless backend instances and optimized model checkpoints minimize cloud hosting budgets, ensuring robust operational margins.</p>
+          </div>
+        </div>
+        <div class="uml-container">
+          <!-- Financial projections bar chart SVG -->
+          <svg class="uml-svg" viewBox="0 0 500 300">
+            <text x="250" y="25" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Projected Revenue Growth ($ Thousands)</text>
+            
+            <line x1="60" y1="230" x2="440" y2="230" stroke="#4b5563" stroke-width="1.5" />
+            <line x1="60" y1="40" x2="60" y2="230" stroke="#4b5563" stroke-width="1.5" />
+
+            <!-- Bars -->
+            <!-- Year 1 -->
+            <rect x="100" y="160" width="50" height="70" rx="4" fill="#6366f1" />
+            <text x="125" y="150" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">$120K</text>
+            <text x="125" y="250" text-anchor="middle" fill="#9ca3af" font-size="11">Year 1</text>
+
+            <!-- Year 2 -->
+            <rect x="225" y="100" width="50" height="130" rx="4" fill="#a855f7" />
+            <text x="250" y="90" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">$340K</text>
+            <text x="250" y="250" text-anchor="middle" fill="#9ca3af" font-size="11">Year 2</text>
+
+            <!-- Year 3 -->
+            <rect x="350" y="50" width="50" height="180" rx="4" fill="#06b6d4" />
+            <text x="375" y="40" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">$780K</text>
+            <text x="375" y="250" text-anchor="middle" fill="#9ca3af" font-size="11">Year 3</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">23</div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 24 ==================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="project-title">Why Invest / Conclusion</div>
+      <div class="slide-title-text">Thank You & Q&A</div>
+      <div class="section-tag">Ending</div>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 34px; font-weight: 800; color: #fff; margin-bottom: 20px;">Why Partner With NeuroSeg AI?</h3>
+          <ul class="card-list" style="margin-top: 0; margin-bottom: 30px;">
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Large Addressable Market</strong>: Growing clinical adoption of medical imaging AI tools.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Validated Deep Learning Engine</strong>: High 89.6% validation Dice Coefficient.</li>
+            <li style="font-size: 18px; margin-bottom: 12px;"><strong>Scale-Ready Architecture</strong>: Stateless Docker containers deployable to cloud orchestrators.</li>
+          </ul>
+          <div class="highlight-box" style="margin-bottom: 0;">
+            We are looking to scale our development pipeline and integrate with regional clinical networks. Connect with us to expand diagnostic limits.
+          </div>
+        </div>
+        
+        <div class="card" style="justify-content: center;">
+          <h3 style="color: var(--primary); margin-bottom: 20px; font-size: 28px;">Contact Information</h3>
+          <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Lead Developer Email</div>
+            <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">poornachandhu022@gmail.com</div>
+          </div>
+          <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase;">GitHub Profile</div>
+            <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">github.com/Chandu2411</div>
+          </div>
+          <div>
+            <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Project Repository</div>
+            <div style="font-size: 18px; font-weight: 600; color: #fff; margin-top: 5px;">Brain-Tumor-Segmentation-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="logo-sec"><span>NeuroSeg</span> AI</div>
+      <div class="slide-number">24</div>
+    </div>
+  </div>
+
+</body>
+</html>
