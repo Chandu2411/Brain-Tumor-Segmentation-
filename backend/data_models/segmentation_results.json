@@ -1,0 +1,57 @@
+{
+    "title": "segmentation_results",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "original_image_key": {
+            "type": "string",
+            "description": "Object storage key for original MRI image"
+        },
+        "segmented_image_key": {
+            "type": "string",
+            "description": "Object storage key for segmented result image"
+        },
+        "filename": {
+            "type": "string",
+            "description": "Original filename of uploaded image"
+        },
+        "tumor_detected": {
+            "type": "boolean",
+            "description": "True if predicted tumor area >= MIN_TUMOR_PIXELS threshold"
+        },
+        "tumor_pixel_count": {
+            "type": "integer",
+            "description": "Number of pixels above the 0.5 prediction threshold"
+        },
+        "tumor_coverage_percentage": {
+            "type": "number",
+            "description": "tumor_pixel_count / total_pixels * 100 (0-100%)"
+        },
+        "mean_tumor_probability": {
+            "type": "number",
+            "description": "Mean sigmoid probability over the foreground (tumor) region"
+        },
+        "max_tumor_probability": {
+            "type": "number",
+            "description": "Maximum sigmoid probability over the entire image"
+        },
+        "model_used": {
+            "type": "string",
+            "description": "Model name: 'Enhanced U-Net' or 'SciPy Fallback'"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "original_image_key",
+        "segmented_image_key",
+        "filename"
+    ]
+}

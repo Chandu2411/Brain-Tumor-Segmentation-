@@ -1,8 +1,8 @@
 # NeuroSeg AI: Brain Tumor Segmentation
 
-NeuroSeg AI is an end-to-end deep learning web application designed for brain tumor detection and segmentation in MRI scans. The system features a modular FastAPI backend, an interactive React frontend built with Vite and Tailwind CSS, and is fully containerized with Docker.
-
-Additionally, this repository includes the core research Jupyter Notebook containing the Enhanced U-Net model architecture training logic and validation results.
+<div align="center">
+  <h3>An end-to-end deep learning web application designed for brain tumor detection and segmentation in MRI scans.</h3>
+</div>
 
 ---
 
@@ -10,8 +10,8 @@ Additionally, this repository includes the core research Jupyter Notebook contai
 
 *   **Deep Learning Segmentation**: Employs an Enhanced U-Net model optimized for brain MRI scans.
 *   **Interactive Web UI**: Elegant, premium dark-themed dashboard allowing users to drag and drop or upload MRI scans.
-*   **Pre-loaded Sample Scans**: Quick buttons to try out sample brain scans instantly.
-*   **Detailed Analytics**: Calculates and displays essential performance metrics including **Dice Coefficient**, **Accuracy**, and **IoU (Intersection-over-Union)**.
+*   **Detailed Analytics**: Calculates and displays essential inference statistics including **Tumor Detection**, **Coverage Percentage**, and **Tumor Probability Mapping**.
+*   **Evaluation Endpoint**: Specialized endpoint for computing true **Dice Coefficient**, **Accuracy**, and **IoU (Intersection-over-Union)** when a ground-truth mask is provided.
 *   **History Logs**: Displays a history of all analyzed scans with dates and corresponding metrics, fetched dynamically from an SQLite database.
 *   **Fully Dockerized**: Easily run the entire stack locally with Docker Compose.
 
@@ -30,33 +30,28 @@ Additionally, this repository includes the core research Jupyter Notebook contai
 *   **Tailwind CSS & shadcn/ui**: Modern, responsive UI design.
 *   **Lucide Icons**: Crisp and premium icon assets.
 
-### Containers
-*   **Docker & Docker Compose**: Unified build and container deployment configuration.
-
 ---
 
-## 📁 Repository Structure
+## 📁 Monorepo Structure
 
 ```text
-├── Brain-Tumor-Segmentation/
-│   ├── app/
-│   │   ├── backend/
-│   │   │   ├── core/               # Database and configuration logic
-│   │   │   ├── dependencies/       # Dependency injection (Auth, DB)
-│   │   │   ├── routers/            # API endpoints (segmentation, entities)
-│   │   │   ├── services/           # DB queries and processing business logic
-│   │   │   ├── Dockerfile          # Backend container setup
-│   │   │   ├── main.py             # FastAPI entrypoint
-│   │   │   └── requirements.txt    # Python dependencies
-│   │   ├── frontend/
-│   │   │   ├── src/                # React components, pages, and hooks
-│   │   │   ├── public/             # Sample images and public assets
-│   │   │   ├── Dockerfile          # Frontend container setup
-│   │   │   ├── package.json        # Node dependencies
-│   │   │   └── vite.config.ts      # Vite build settings
-│   │   └── docker-compose.yml      # Orchestration for both frontend & backend
-│   ├── brain-tumor-segmentation-unet-dice-coef-89-6.ipynb  # U-Net training & research notebook
-│   └── README.md                   # Project documentation
+├── backend/               # FastAPI Backend Service
+│   ├── core/              # Database and configuration logic
+│   ├── routers/           # API endpoints (segmentation, entities)
+│   ├── services/          # DB queries and processing business logic
+│   ├── Dockerfile         # Backend container setup
+│   └── main.py            # FastAPI entrypoint
+├── frontend/              # React & Vite Frontend Service
+│   ├── src/               # React components, pages, and hooks
+│   ├── public/            # Sample images and public assets
+│   ├── Dockerfile         # Frontend container setup
+│   └── package.json       # Node dependencies
+├── notebooks/             # Core Research & Model Development
+│   └── brain-tumor-segmentation-unet-dice-coef-89-6.ipynb
+├── docs/                  # Reference Material & Papers
+│   └── Automatic Biomedical Brain Tumor Segmentation...pdf
+├── test_images/           # Sample scans for inference testing
+└── README.md              # Project documentation
 ```
 
 ---
@@ -67,10 +62,8 @@ Ensure you have [Docker](https://www.docker.com/) and [Git](https://git-scm.com/
 
 ### Method 1: Running with Docker Compose (Recommended)
 
-To build and run the entire application (both Backend and Frontend) inside containers, run:
-
 1. Clone this repository to your local machine.
-2. In the project root (where `docker-compose.yml` is located), execute:
+2. In the project root, execute:
    ```bash
    docker-compose up --build
    ```
@@ -78,16 +71,12 @@ To build and run the entire application (both Backend and Frontend) inside conta
    *   **Frontend**: `http://localhost:3000`
    *   **Backend API**: `http://localhost:8000`
 
----
-
 ### Method 2: Running Locally (Manual Setup)
-
-If you prefer to run the components directly on your host machine:
 
 #### 1. Backend Setup
 1. Navigate to the backend folder:
    ```bash
-   cd app/backend
+   cd backend
    ```
 2. Create and activate a virtual environment:
    ```bash
@@ -110,7 +99,7 @@ If you prefer to run the components directly on your host machine:
 #### 2. Frontend Setup
 1. Navigate to the frontend folder:
    ```bash
-   cd app/frontend
+   cd frontend
    ```
 2. Install npm packages:
    ```bash
@@ -126,11 +115,20 @@ If you prefer to run the components directly on your host machine:
 
 ## 🧠 Model & Notebook Research
 
-The root of this repository contains the research file:
+The `notebooks/` directory contains the research file:
 `brain-tumor-segmentation-unet-dice-coef-89-6.ipynb`
 
 This notebook covers:
 1. **Data Preprocessing**: Handling MRI scans and normalization.
 2. **Model Definition**: Enhanced U-Net architecture with multi-scale skip connections.
 3. **Training & Optimization**: Custom loss functions integrating Binary Cross-Entropy (BCE) and Dice Loss.
-4. **Validation**: Reaching an **89.6% Dice Coefficient** validation score on the dataset.
+4. **Validation & Testing**: Computes per-sample, thresholded metrics on a held-out test set with zero patient leakage.
+
+---
+
+## 📊 Metric Interpretation
+
+It is important to distinguish between **supervised evaluation** and **normal inference**:
+
+*   **Supervised Evaluation Metrics (Dice, IoU, Accuracy, Precision, Recall)**: These metrics *require a ground-truth mask* to compare against the model's prediction. These are computed during notebook training and by the `/api/evaluate` endpoint.
+*   **Normal Inference Statistics (Tumor Detected, Coverage, Mean Probability)**: When a user uploads a new MRI scan without a ground-truth mask, the system provides honest, prediction-derived statistics based on the model's sigmoid output.
